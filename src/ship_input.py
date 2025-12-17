@@ -67,7 +67,9 @@ def save_to_csv(ships):
 
 # Collects ship positions from the player.
 # Validates input and ensures all placement rules are respected.
+#Ask the player to place ships and save them in CSV
 def collect_player_ships():
+    
     print("Place your ships on a 10x10 board (rows & cols: 0–9)\n")
 
     all_ships = []

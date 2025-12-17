@@ -128,7 +128,6 @@ def apply_move(board, move, ships, hits):
 def init_board():
     return [["." for _ in range(10)] for _ in range(10)]
 
-
 # Converts the board into a single string.
 def flatten_board(board):
     return "".join(cell for row in board for cell in row)
