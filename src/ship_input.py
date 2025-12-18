@@ -32,8 +32,13 @@ def is_straight_line(coords):
 # Checks that ship cells are placed consecutively without gaps.
 def is_consecutive(coords):
     coords = sorted(coords)
+    #проверяем если горизонтальный
     if len({r for r, _ in coords}) == 1:
+        #Собираем все номера колонок корабля в список
         cols = [c for _, c in coords]
+        #Берём все номера колонок: [0,1,2]
+        #Создаём правильную последовательность: range(min(cols), max(cols)+1) → [0,1,2]
+        #Сравниваем: совпадает → клетки подряд, иначе → False
         return cols == list(range(min(cols), max(cols) + 1))
     else:
         rows = [r for r, _ in coords]

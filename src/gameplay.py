@@ -7,8 +7,8 @@ BOARD_SIZE = 10
 
 # Creates an empty game board filled with spaces.
 def init_board():
-    """Create empty board with spaces"""
-    return [[' ' for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+    return [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+
 
 
 # Prints a board to the terminal with row and column numbers.
@@ -17,57 +17,6 @@ def print_board(board, title):
     print("  " + " ".join(str(i) for i in range(10)))
     for i, row in enumerate(board):
         print(f"{i} " + " ".join(row))
-
-
-# Loads ship coordinates from a CSV file into a set.
-def load_ships(csv_file):
-    """Load ships from CSV and return a set of coordinates"""
-    df = pd.read_csv(csv_file)
-    return {(row, col) for row, col in zip(df['row'], df['col'])}
-
-
-# Saves the current game state including moves and board state to a CSV file.
-def save_game_state(turn_number, player_move, bot_move, board, filename="data/game_state.csv"):
-    """Save the current game state to CSV"""
-    os.makedirs("data", exist_ok=True)
-
-    flat_board = [cell for row in board for cell in row]
-    row_dict = {
-        "turn": turn_number,
-        "player_move": player_move,
-        "bot_move": bot_move,
-        "board": ''.join(flat_board)
-    }
-
-    if not os.path.exists(filename):
-        df = pd.DataFrame([row_dict])
-        df.to_csv(filename, index=False)
-    else:
-        df = pd.read_csv(filename)
-        df = pd.concat([df, pd.DataFrame([row_dict])], ignore_index=True)
-        df.to_csv(filename, index=False)
-
-
-# Applies a move to the board and returns whether it was a hit or a miss.
-def apply_move(board, move_coord, ships):
-    """Apply a move and return hit/miss"""
-    r, c = move_coord
-    if (r, c) in ships:
-        board[r][c] = 'X'
-        return "hit"
-    else:
-        if board[r][c] == ' ':
-            board[r][c] = 'O'
-        return "miss"
-
-
-# Generates a random move that has not been used before.
-def random_move(board, occupied_moves):
-    """Generate a random coordinate that hasn't been chosen yet"""
-    while True:
-        r, c = random.randint(0, BOARD_SIZE - 1), random.randint(0, BOARD_SIZE - 1)
-        if (r, c) not in occupied_moves:
-            return (r, c)
 
 
 # Returns all neighboring cells around a coordinate.
@@ -123,10 +72,6 @@ def apply_move(board, move, ships, hits):
         board[r][c] = "O"
     return "miss"
 
-
-# Creates a new board filled with dots.
-def init_board():
-    return [["." for _ in range(10)] for _ in range(10)]
 
 # Converts the board into a single string.
 def flatten_board(board):
